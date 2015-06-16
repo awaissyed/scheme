@@ -8,8 +8,9 @@
 (define (f a b)
   (+ (* 3 a) b))
 
-(define (average a b)
-  (/ (+ a b) 2))
+(define (average first_number second_number)
+  (/ (+ first_number second_number)
+     2))
 
 
 
