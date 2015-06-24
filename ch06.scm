@@ -201,4 +201,40 @@ program willl only work if capital y is at the end
 '(5 7)
 > (sort2 '(6 5 4 3 ))
 '(3 6)
+
+6.12 Make plural handle correctly words that end in y but have a vowel before the y, 
+such as boy. Then teach it about words that end in x (box). What other special cases can you find?
+|#
+
+(define (plural wd)
+   (if (equal? (last wd) 'y)
+       (word (bl wd) 'ies)
+       (word wd 's)))
+
+
+(define (vowel? char)
+  (member? char 'aeiou))
+
+(define (secondlast x)
+  (last (bl x)))
+
+(define (plural wd)
+  (cond
+    ((and
+       (equal? (last wd) 'y)
+       (vowel? (secondlast wd)))
+      (word wd 's))
+    ((equal? (last wd) 'y) (word (bl wd) 'ies))
+    ((equal? (last wd) 'x) (word wd 'es))
+    (else (word wd 's))))
+
+#|
+> (plural 'boy)
+'boys
+> (plural 'city)
+'cities
+> (plural 'box)
+'boxes
+> 
+
 |#
