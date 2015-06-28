@@ -1,0 +1,62 @@
+
+So I looked at the code, from now on, paste in some examples of the code working the way it should (as comments) . in the question, they give some examples of input and output for each function you are meant to write, so at least test your code with those inputs, and two more of your own to prove it works correctly, and paste the input and output from the repl into your answer
+Ghufran • 2:02 AM
+noted
+Awais Syed
+2:05 AM
+its done however when i looked on line, it is showing some strange line that i never wrote
+Awais Syed
+2:51 AM
+Ghufran Syed
+by the way, you should delete the 'old' repo on your github account, the one that is empty now
+I read the code when you pushed earlier, looked fine
+Ghufran • 2:53 AM
+i pushed again with examples
+Awais Syed
+2:54 AM
+Ghufran Syed
+this version is probably because of the following (these are the first few lines of ch04.scm:)
+  This file uses the GRacket editor format.
+Open this file in DrRacket version 6.1.1 or later to read it.
+Most likely, it was created by saving a program in DrRacket,
+and it probably contains a program with non-text elements
+(such as images or comment boxes).
+So don't use comment boxes, just use #| at the start of a multiline comment, and |# at the end
+Ghufran • 2:54 AM
+got it
+Awais Syed
+2:55 AM
+Ghufran Syed
+I just tried pulling and opening it in drracket, wouldn't work, gave me an error
+There was an error loading /Users/ghufran/Documents/programming/awais/scheme/ch04.scm.
+
+insert-file in text%: error loading the file (read-from-file-failed)
+if you still have the original file open, remove any graphics or comment boxes, then save again and do 'head' to see the format of the saved file. It's always easier just working with text files (.scm and .rkt should both just be text files)
+Ghufran • 3:02 AM
+umedoc (master *) scheme $ 'head' ch04.scm
+#reader(lib"read.ss""wxme")WXME0108 ## 
+#|
+   This file uses the GRacket editor format.
+   Open this file in DrRacket version 6.1.1 or later to read it.
+
+   Most likely, it was created by saving a program in DrRacket,
+   and it probably contains a program with non-text elements
+   (such as images or comment boxes).
+
+            http://racket-lang.org/
+Awais Syed
+3:20 AM
+Ghufran Syed
+so I just checked your code for the last function, it does not fulfil the specification in the question. 
+"it should know to round up so that the total amount of money you leave (tip plus
+original bill) is a whole number of dollars. (Use the ceiling procedure to round up.)"
+so (tip 19.98 should be 3.02, not 3)
+These are the inputs and outputs from the book:
+> (tip 19.98) 3.02 > (tip 29.23) 4.77 > (tip 7.54) 1.46
+Your code should at least give the same outputs for the same inputs as the examples they give, otherwise it's not working properly!
+In this case, the question alone is not very clear, but with the examples, it's pretty clear: you are not rounding up the tip to the nearest dollar, you are rounding up (original_price + tip) to the nearest dollar, then setting the tip so that (original_price + tip) = rounded_off_amount
+It's often easier to code and read if you write separate functions for each bit, for example 
+a function called fifteen_percent that takes a numeric argument and returns the amount representing 15% of the original amount
+Then have a separate function like round_up that takes a numeric argument and rounds up to the nearest dollar
+Then your tip function can call fifteen_percent to get the 'original' tip amount, add it to the original_bill to get the non-rounded total, then call round on this number, to get the rounded final bill, then subtract the original_bill from final_bill to get the final tip amount)
+by the way, they haven't shown you how to define variables, so you can't directly use the names I used in the above description, but they give you an idea of what each expression should do and what it should return
