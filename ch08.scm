@@ -223,20 +223,62 @@ It should double all the numbers in the sentence, and it should replace "good" w
         ((equal? wd 'bad)       'terrible)
         ((equal? wd 'nice)      'fantastic)
         (else wd)))
+#|
+8.11 [12.6] Write a GPA procedure. It should take a sentence of grades as its argument and return the corresponding grade point average:
+> (gpa '(A A+ B+ B))
+3.67
+Hint: write a helper procedure base–grade that takes a grade as argument and returns 0, 1, 2, 3, or 4, and another helper procedure
+grade–modifier that returns–.33, 0, or .33, depending on whether the grade has a minus, a plus, or neither.
+|#
 
-
+(define (gpa se)
+  ( / (accumulate + (every base-grade se))
+      (count se)))
+  
+(define (split-grade grade)
+  (+    grade-from-letter   (first grade)
         
-
-  
-  
-  
-  
-  
+        grade-from-modifier))
 
 
-   
-   
-   
+
+(define (base-grade wd)
+  (cond ((equal? wd 'A)  4)
+        ((equal? wd 'B)  3)
+        ((equal? wd 'C)  2)
+        ((equal? wd 'D)  1)
+        ((equal? wd 'E)  0)
+        (else 0)))
+
+  
+(define (grade-modifier modifier)
+  (cond ((equal? modifier '- )  -.33 )
+        ((equal? modifier '+ )   .33 )
+         (else 0)))
+  
+ #| 
+  8.9 What procedure can you use as the first argument to every so that for any sentence used 
+as the second argument, every returns that sentence?
+What procedure can you use as the first argument to 
+keep so that for any sentence used as the second 
+argument, keep returns that sentence?
+What procedure can you use as the first 
+argument to accumulate so that for any sentence used as the second argument,
+accumulate returns that sentence?
+
+
+a (every word '(awais is here))
+
+'(awais is here)   
+ 
+b (keep sentence '(awais ar her))
+
+c (accumulate sentence '(awais was here))
+'(awais was here)
+
+
+
+|#    
    
    
    
