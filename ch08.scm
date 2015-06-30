@@ -379,9 +379,51 @@ need to discuss 8.3
 anwer
 (count-ums '(i um waiting um ))
 2
-
-
 |#
+
+#|
+8.13 [11.3] Write a procedure phone–unspell that takes a spelled version of a phone number, 
+such as POPCORN, and returns the real phone number, in this case7672676. 
+You will need to write a helper procedure that uses an 8- way cond expression to
+ translate a single letter into a digit.
+|#
+
+(define (phone-unspell wd)
+  (accumulate word (every number-to-letter wd)))
+
+(define (number-to-letter wd)
+  (cond ((member? wd 'abc )   '2)
+        ((member? wd 'def )   '3)
+        ((member? wd 'ghi )   '4)
+        ((member? wd 'jkl )   '5)
+        ((member? wd 'mno )   '6)
+        ((member? wd 'pqrs )   '7)
+        ((member? wd 'tuv )   '8)
+        ((member? wd 'wxyz)   '9)
+        (else 0)))
+#|
+phone-unspell 'popcorn)
+7672676
+> (phone-unspell 'awais)
+29247
+|#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   
   
