@@ -120,4 +120,84 @@ and returns a new sentence with an "and" in the right place:
 '(awais aiza ifrah and inaya)
 |#
 
+#|
+--------------------------------------------------------------------------------------------
+quote (tomorrow never knows))
+'(tomorrow never knows)
+> "2+3"
+"2+3"
+> 2+3
+
+> '("can't" buy me love)
+'("can't" buy me love)
+
+
+> (first 'something)
+'s
+> (first '(eight days a week))
+
+'eight
+> (first 910)
+9
+> (last 'something)
+'g
+> (last '(eight days a week))
+'week
+> (last 910)
+0
+> (butfirst 'something)
+'omething
+> (butfirst '(eight days a week))
+'(days a week)
+> (butfirst 910)
+10
+> (butlast 'something)
+'somethin
+> (butlast '(eight days a week))
+'(eight days a)
+> (butlast 910)
+91
+
+
+|#
+
+(define (second thing)
+  (first (butfirst thing)))
+#|
+(second 'awais)
+'w
+> (second '(awais))
+Invalid argument to FIRST:  ()
+> (second '(awais syed))
+'syed
+(item 4 '1234)
+4
+> (item 4 '(being for the benefit of mister kite!))
+'benefit
+> (item 4 'awais)
+'i
+> 
+> 
+> (first 'because)
+'b
+> (first '(because))
+'because
+> (last 'because)
+'e
+> (last '(because))
+'because
+> (butfirst 'because)
+'ecause
+> (bustfirst '(because))
+ bustfirst: undefined;
+ cannot reference undefined identifier
+> (butfirst '(because))
+'()
+(butfirst 'a)
+""
+> 
+
+|#
+
+
 
