@@ -234,7 +234,9 @@ expressions to Scheme? (Figure it out in your head before you try it on the comp
 '("" "")
 (count (se "" '() "" '()))
 2
-
+5.2 For each of the following examples, write a procedure of two arguments that,
+ when applied to the sample arguments, returns the sample result. 
+Your procedures may not include any quoted data.
 output from example
 (f1 '(a b c) '(d e f))
 (B C D E)
@@ -446,9 +448,88 @@ name as its argument and returns the name with "Sir" in front of it.
 > (knight '(david wessel))
 '(sir david wessel)
 
+5.18 Try the following and explain the result: 
+(define (ends word)
+  (word (first word) (last word)))
+> (ends 'john)
+argument of funciton 'ends' is a scheme funcion. correct way is 
+
+(define (ends wd)
+  (word (first wd) (last wd)))
+
+
+5.19 Write a procedure insert–and that takes a sentence of items and returns a new sentence 
+with an "and" in the right place:
+> (insert-and '(john bill wayne fred joey))
+(JOHN BILL WAYNE FRED AND JOEY)
+
+(insert-and '(john david awais))
+'(john david and awais)
+deliberatly missed t in tht function. 
+
+(define (inser-and sent1)
+  (se (bl sent1) 'and (last sent1)))
+
+
+(inser-and '(awais awais awais))
+'(awais awais and awais)
+> (insert-and '(john bill wayne fred joey))
+'(john bill wayne fred and joey)
+
+
+
+
+5.20 Define a procedure to find somebody's middle names: > (middle-names '(james paul mccartney))
+(PAUL)
+
+(middle-names '(john ronald raoul tolkien))
+(RONALD RAOUL)
+> (middle-names '(bugs bunny))
+()
+> (middle-names '(peter blair denis bernard noone))
+(BLAIR DENIS BERNARD)
+
+
+Procedure 
+
+(define (midd-name sent1)
+  (se (bf (bl sent1))))
+
+actual output
+> (midd-name '(peter blair denis bernard noone))
+'(blair denis bernard)
+> (midd-name '(bugs bunny))
+'()
+> (midd-name '(john ronald raoul tolkien))
+'(ronald raoul)
+
+(midd-name '(syed muhammad awais))
+'(muhammad)
+
+
+
+5.21 Write a procedure query that turns a statement into a question by
+ swapping the first two words and adding a question mark to the last word:
+> (query '(you are experienced))
+(ARE YOU EXPERIENCED?)
+> (query '(i should have known better))
+(SHOULD I HAVE KNOWN BETTER?)
+
+procedure 
+
+(define (query sent)
+  (se (item 2 sent) (item 1 sent) (bf (bf sent)) '?))
+
+output
+> (query '(i am ok))
+'(am i ok ?)
+
+(query '(you are experienced))
+'(are you experienced ?)
+
+> (query '(i should have known better))
+'(should i have known better ?)
 |#
-
-
 
 
 
