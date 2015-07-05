@@ -535,20 +535,13 @@ this version was trure only for inputting the word and only 1 digit time
 
 this revised versio takes sentence and is true for all 
 
-|#
+
 (define (european-time nume)
   (if (equal? (last nume) 'pm) (+ (first nume) 12)
              (first nume)))
-(european-time '(12 am))
-(european-time '(1 am))
-(european-time '(11 am))
-(european-time '(12 pm))
-(european-time '(1 pm))
-(european-time '(11 pm))
-(european-time '(12 am))
 
 
-#|
+
 6.6 Write a predicate teen? that returns true if its argument is between 13 and 19.
 
 
