@@ -539,12 +539,20 @@ this revised versio takes sentence and is true for all
 (define (european-time nume)
   (if (equal? (last nume) 'pm) (+ (first nume) 12)
              (first nume)))
+european-time
+'(12 am)
 (european-time '(12 am))
+'(1 am)
 (european-time '(1 am))
+'(11 am)
 (european-time '(11 am))
+'(12 pm)
 (european-time '(12 pm))
+'(1 pm)
 (european-time '(1 pm))
+'(11 pm)
 (european-time '(11 pm))
+'(12 am)
 (european-time '(12 am))
 
 
