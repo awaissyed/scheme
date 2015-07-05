@@ -501,19 +501,145 @@ Getting noon and midnight right is tricky.
 
 |#
 
-(define (european-time numb)
-  (if (equal? (bf numb) 'pm) (+ (first numb) 12)
-             (first numb)))
+#|
+(define (american-time numa)
+  (if  (> numa 12) 
+       (se (- numa 12) 'pm) 
+       (se numa 'am)))
+
+
+> (american-time 13)
+'(1 pm)
+> (american-time 8)
+'(8 am)
+> (american-time 12)
+'(12 am)
+> (american-time 24)
+'(12 pm)
+
+
+
+this version was trure only for inputting the word and only 1 digit time
+
+(define (european-time nume)
+  (if (equal? (bf nume) 'pm) (+ (first nume) 12)
+             (first nume)))
+
+> (european-time '8pm)
+20
+> (european-time '10pm)
+1
+> 
+
+
+
+this revised versio takes sentence and is true for all 
+
+
+(define (european-time nume)
+  (if (equal? (last nume) 'pm) (+ (first nume) 12)
+             (first nume)))
+
+
+
+6.6 Write a predicate teen? that returns true if its argument is between 13 and 19.
+
+
+(define (teen? x)
+  (if ( or ( < x 13) (> x 20))
+   'false 'true))
+
+
+
+(define (teen num-teen)
+  (if ( and (> num-teen 12) (< num-teen 19)) 
+      'true 'false))
+
+
+
+6.7 Write a procedure type–of that takes anything as its argument 
+and returns one of the words word, sentence, number, or boolean:
+> (type–of '(getting better))
+SENTENCE
+> (type–of 'revolution)
+WORD
+> (type–of (= 3 3))
+BOOLEAN
+
+(define (type-of? sen_tence)
+  (cond ((sentence? sen_tence) 'sentence )
+        ((number? sen_tence) 'number)
+        ((word? sen_tence) 'word)
+        ((boolean? sen_tence) 'boolean)
+        (else 'nothing)))
 
 
 
 
+(type-of? (= 3 3))
+'boolean
+(type-of? 7)
+'number
+> (type-of? '(i am awais))
+'sentence
+ (type-of?'word)
+'word
+> 
+6.8 Write a procedure indef–article that works like this: > (indef–article 'beatle)
+(A BEATLE)
+> (indef–article 'album)
+(AN ALBUM)
+
+
+(define (vowel? c)
+  (member? c 'aeiou))
+
+(define (indef-article sen-tence)
+  (se (if (vowel? (first sen-tence)) 'an 'a)
+              sen-tence ))
 
 
 
+> (indef-article 'awais)
+'(an awais)
+> (indef-article 'boss)
+'(a boss)
+> (indef-article 'beatles)
+'(a beatles)
+> 
+(define (vowel? c)
+  (member? c 'aeiou))
+
+(define (abc def)
+  (se (cond ((vowel? (first def)) 'an )
+         (else 'a )) def))
 
 
 
+ (abc 'awais)
+'(an awais)
+> (abc 'boss)
+'(a boss)
+> 
 
 
+|#
 
+(define (vowel? c)
+  (member? c 'aeiou))
+
+(define (abc def)
+  (se (cond ((vowel? (first def)) 'an )
+         (else 'a )) def))
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
