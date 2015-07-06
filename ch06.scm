@@ -546,6 +546,21 @@ this revised versio takes sentence and is true for all
 (european-time '(12 pm))
 (european-time '(4 pm))
 #|
+final version 
+|#
+(define (european-time1 nume)
+  (cond (( and (equal? (last nume) 'am) (= (first nume) 12) ) (+ (first nume) 12))
+        (( and (equal? (last nume) 'pm) (= (first nume) 12) ) (first nume))
+        (( and (equal? (last nume) 'pm) (+ (first nume) 12)))
+        (else (first nume))))
+        
+(european-time1 '(12 am))
+(european-time1 '(12 pm))
+(european-time1 '(11 am))
+(european-time1 '(11 pm))
+(european-time1 '(4 pm))
+(european-time1 '(10 pm))
+#|
 
 6.6 Write a predicate teen? that returns true if its argument is between 13 and 19.
 
@@ -652,11 +667,62 @@ a number and a singular noun, and combines them appropriately:
 (thismany 3 'french-hen)
 (thismany 4 'programmer)
   
+#|
+6.10 Write a procedure sort2 that takes as its argument a sentence containing 
+two numbers. It should return a sentence containing the same two numbers, 
+but in ascending order:
+> (sort2 '(5 7))
+(5 7)
+> (sort2 '(7 5))
+(5 7)  
+|#
   
+
+(define (sort2 su)
+  (cond ((> (item 1 su) (item 2 su)) (se (item 2 su) (item 1 su) ))
+            (else su)))
   
-  
-  
-  
-  
-  
-  
+(sort2 '(7 5))
+(sort2 '(24 13))
+(sort2 '(5 7))
+
+
+(define (sort3 su)
+  (if (>= (first su) (last su))
+      (se (bf su) (first su))
+      su))
+(sort3 '(5 7))
+(sort3 '(7 5))
+#|
+6.11 Write a predicate valid–date? that takes three numbers as arguments, representing a month,
+ a day of the month, and a year. Your procedure should return #t if the numbers represent a valid
+ date (e.g., it isn't the 31st of
+September). February has 29 days if the year is divisible by 4, except that if the year is divisible 
+by 100 it must also be divisible by 400.
+> (valid–date? 10 4 1949)
+#T
+> (valid–date? 20 4 1776)
+#F
+> (valid–date? 5 0 1992)
+#F
+> (valid–date? 2 29 1900)
+#F
+> (valid–date? 2 29 2000)
+#T
+|#  
+ 
+(define (valid-month x)
+  (cond ((<= x 12)  #t)
+  (else #f)))
+
+(define (valid-day x)
+  (cond ((<= x 31) #t)
+        (else #f)))
+
+(define (valid-year x)
+  (cond ((> x 999 ) #t)
+        (else #f)))
+
+(define (valid-date valid-day valid-month valid-year)
+  ( cond ((valid-day valid-month valid-year) #t)
+         (else #f)))
