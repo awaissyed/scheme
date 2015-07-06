@@ -534,13 +534,18 @@ this version was trure only for inputting the word and only 1 digit time
 
 
 this revised versio takes sentence and is true for all 
-
+|#
 
 (define (european-time nume)
   (if (equal? (last nume) 'pm) (+ (first nume) 12)
              (first nume)))
 
-
+(european-time '(11 pm))
+(european-time '(8 am))
+(european-time '(12 am))
+(european-time '(12 pm))
+(european-time '(4 pm))
+#|
 
 6.6 Write a predicate teen? that returns true if its argument is between 13 and 19.
 
@@ -607,24 +612,8 @@ BOOLEAN
 > (indef-article 'beatles)
 '(a beatles)
 > 
-(define (vowel? c)
-  (member? c 'aeiou))
-
-(define (abc def)
-  (se (cond ((vowel? (first def)) 'an )
-         (else 'a )) def))
-
-
-
- (abc 'awais)
-'(an awais)
-> (abc 'boss)
-'(a boss)
-> 
-
 
 |#
-
 (define (vowel? c)
   (member? c 'aeiou))
 
@@ -632,8 +621,36 @@ BOOLEAN
   (se (cond ((vowel? (first def)) 'an )
          (else 'a )) def))
 
-  
-  
+
+
+(abc 'awais)
+
+(abc 'boss)
+
+
+#|
+6.9 Sometimes you must choose the singular or the plural of a word: 
+1 book but 2 books. Write a procedure thismany that takes two arguments, 
+a number and a singular noun, and combines them appropriately:
+> (thismany 1 'partridge)
+(1 PARTRIDGE)
+> (thismany 3 'french–hen)
+(3 FRENCH–HENS)
+|#
+
+(define (plural wd)
+  (cond ((equal? (last wd) 'y) (word (bl wd) 'ies))
+               (else (word wd 's))))
+
+
+(define (thismany a b)
+ (se a (cond ((> a 2) (plural b) )
+           (else  b))))
+
+(thismany 1 'book)
+(thismany 1 'partridge)
+(thismany 3 'french-hen)
+(thismany 4 'programmer)
   
   
   
