@@ -709,20 +709,92 @@ by 100 it must also be divisible by 400.
 #F
 > (valid–date? 2 29 2000)
 #T
-|#  
+
  
-(define (valid-month x)
+(define (v-month x)
   (cond ((<= x 12)  #t)
   (else #f)))
 
-(define (valid-day x)
+(define (v-day x)
   (cond ((<= x 31) #t)
         (else #f)))
 
-(define (valid-year x)
+(define (v-year x)
   (cond ((> x 999 ) #t)
         (else #f)))
 
-(define (valid-date valid-day valid-month valid-year)
-  ( cond (( and (= valid-day #t) (= valid-month #t) (= valid-year #t)) #t)
+(define (days-in-feb year)
+  (cond ((= (reminder year 4) 1 ) 28)
+        ((= (reminder year 4) 2 ) 28)
+        ((= (reminder year 4) 3 ) 28)
+        ((= (reminder year 4) 0 )
+         (if (= (reminder year 100) 0)
+             (if (= (reminder year 400) 0)
+                 29
+                 28)
+             29))))
+                 
+                 
+   
+
+
+(define (valid-date day month year)
+  ( cond (( and (equal? (v-day day) #t) (equal? (v-month month) #t) (equal? (v-year year) #t)) #t)
          (else #f)))
+
+
+6.12 Make plural handle correctly words that end in y but have a vowel before the y,
+ such as boy. Then teach it about words that end in x (box). 
+What other special cases can you find?
+
+
+
+(define (plural wd)
+   (if (equal? (last wd) 'y)
+       (word (bl wd) 'ies)
+       (word wd 's)))
+|#  
+
+(define (vowel? wd)
+  (member? wd 'aeiou))
+
+(define (secondlast x)
+  (last (bl x)))
+
+(define (plural wd)
+  (cond
+    ((and
+       (equal? (last wd) 'y)
+       (vowel? (secondlast wd)))
+      (word wd 's))
+    ((equal? (last wd) 'y) (word (bl wd) 'ies))
+    ((equal? (last wd) 'x) (word wd 'es))
+    (else (word wd 's))))
+#|
+6.14 Write a procedure describe–time that takes a number of seconds as its 
+argument and returns a more useful description of that amount of time:
+> (describe–time 45)
+(45 SECONDS)
+> (describe–time 930)
+(15.5 MINUTES)
+> (describe–time 30000000000)
+(9.506426344208686 CENTURIES)
+|#
+(define (dercribe-time x)
+  (cond ((< x 60)  (se  x 'seconds))
+        (( and (>= x 60) (<= x 3600)) (se (/ x 60 ) 'minute))
+        (( and (> x 3600) (<= x 86400)) (se (/ x  (* 60 60 )) 'hour))
+        (( and (> x 86400) (<= x 604800)) (se (/ x (* 60 60 24)) 'day))
+        (( and (> x 604800) (<= x 31449600)) (se (/ x (* 60 60 24 7)  ) 'week))
+        (( and (> x 31449600) (<= x 3144960000)) (se (/ x (* 60 60 24 7 52 )) 'year))
+        ((> x 3144960000) (se (/ x  (* 60 60 24 7 52 100  )) 'centuries))
+        
+        ))
+
+(dercribe-time 59)
+(dercribe-time 60)
+(dercribe-time 604801)
+(dercribe-time 31449600)
+(dercribe-time 31449601)
+(dercribe-time 3144960000)
+(dercribe-time 3144960001)
