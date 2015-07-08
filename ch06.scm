@@ -710,50 +710,75 @@ by 100 it must also be divisible by 400.
 > (valid–date? 2 29 2000)
 #T
 
- 
-(define (v-month x)
+
+
+(define (v-month m)
   (cond ((<= x 12)  #t)
   (else #f)))
-
-(define (v-day x)
-  (cond ((<= x 31) #t)
-        (else #f)))
-
+|# 
+(define (v-day day month year)
+  (cond ((= month 1) 31)
+        ((= month 2) (days-in-feb year))
+        ((= month 3) 31)
+        ((= month 4) 30)
+        ((= month 5) 31)
+        ((= month 6) 30)
+        ((= month 7) 31)
+        ((= month 8) 31)
+        ((= month 9) 31)
+        ((= month 10) 30)
+        ((= month 11) 30)
+        ((= month 12) 31)
+        (else 0)))
+#|
 (define (v-year x)
   (cond ((> x 999 ) #t)
         (else #f)))
+|#
 
 (define (days-in-feb year)
-  (cond ((= (reminder year 4) 1 ) 28)
-        ((= (reminder year 4) 2 ) 28)
-        ((= (reminder year 4) 3 ) 28)
-        ((= (reminder year 4) 0 )
-         (if (= (reminder year 100) 0)
-             (if (= (reminder year 400) 0)
+  (cond ((= (remainder year 4) 1 ) 28)
+        ((= (remainder year 4) 2 ) 28)
+        ((= (remainder year 4) 3 ) 28)
+        ((= (remainder year 4) 0 )
+         (if (= (remainder year 100) 0)
+             (if (= (remainder year 400) 0)
                  29
                  28)
              29))))
                  
-                 
-   
-
+ #|                
 
 (define (valid-date day month year)
-  ( cond (( and (equal? (v-day day) #t) (equal? (v-month month) #t) (equal? (v-year year) #t)) #t)
-         (else #f)))
+  (<= day (v-day day month year)))
+|#
+(define (valid-date day month year)
+  (and
+       (<= month 12)
+       (<= day (v-day day month year)) (> day 0) 
+       (number? year)))
 
+
+(valid-date 4 10 1949)
+(valid-date 4 20 1776)
+(valid-date 0 5 1992)
+(valid-date 29 2 1900)
+(valid-date 29 2 2000)
+
+
+#|
 
 6.12 Make plural handle correctly words that end in y but have a vowel before the y,
  such as boy. Then teach it about words that end in x (box). 
 What other special cases can you find?
 
-
+|#
 
 (define (plural wd)
    (if (equal? (last wd) 'y)
        (word (bl wd) 'ies)
        (word wd 's)))
-|#  
+
 
 (define (vowel? wd)
   (member? wd 'aeiou))
@@ -780,7 +805,7 @@ argument and returns a more useful description of that amount of time:
 > (describe–time 30000000000)
 (9.506426344208686 CENTURIES)
 |#
-(define (dercribe-time x)
+(define (describe-time x)
   (cond ((< x 60)  (se  x 'seconds))
         (( and (>= x 60) (<= x 3600)) (se (/ x 60 ) 'minute))
         (( and (> x 3600) (<= x 86400)) (se (/ x  (* 60 60 )) 'hour))
@@ -791,10 +816,11 @@ argument and returns a more useful description of that amount of time:
         
         ))
 
-(dercribe-time 59)
-(dercribe-time 60)
-(dercribe-time 604801)
-(dercribe-time 31449600)
-(dercribe-time 31449601)
-(dercribe-time 3144960000)
-(dercribe-time 3144960001)
+
+
+
+
+
+(describe-time 30000000000)
+(describe-time 59)
+(describe-time 60)
