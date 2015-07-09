@@ -408,37 +408,267 @@ phone-unspell 'popcorn)
 29247
 |#
 
+(define (g b)
+  (every b '(blue jay way)))
+
+#|
+------------------------------------------------------------------------------------------
+|#
+
+
+(define (square x)
+  (* x x))
+
+
+(every - '(4 5 7 8 9)) 
+(every square 547)
+
+(keep even? '(1 2 3 4 5))
+(define (ends–e? word) (equal? (last word) 'e))
+(keep ends–e? '(please put the salami above the blue elephant))
+
+
+
+(accumulate + (keep number? '(1 after 909)))
+(define (real–word? wd)
+  (not (member? wd '(a the an in of and for to with))))
+
+(every first (count (keep real–word? '(lucy in the sky with diamonds))))
+
+(define (hyphenate word1 word2)
+(word word1 '- word2))
+
+(accumulate hyphenate '(ob la di ob la da))
+
+(define (count sent)
+  (accumulate + (every always–one sent)))
+(count '(the continuing story of bungalow bill))
+
+
+(define (acronym phrase)
+  (accumulate word (every first (keep real–word? phrase))))
+
+(acronym '(reduced instruction set computer))
+
+(acronym '(structure and interpretation of computer programs))
+(define (double letter) (word letter letter))
+                        
+(every double 'girl)
+
+(keep even? '(1 2 3 4 5))
+
+(se (if (even? 1) 1 '())
+      (if (even? 2) 2 '())
+      (if (even? 3) 3 '())
+      (if (even? 4) 4 '())
+      (if (even? 5) 5 '()))
+
+((repeated bf 3) '(she came in through the bathroom window))
 
 
 
 
 
+ ((repeated square 2) 3)
+(define (double sent)
+  (se sent sent))
 
 
 
+((repeated double 3) '(banana))
+
+(define (any–numbers? sent)
+  (not (empty? (keep number? sent))))
+(define (spell–digit digit)
+  (item (+ 1 digit)
+        '(zero one two three four five six seven eight nine)))
 
 
 
+(every spell–digit 1971)
+
+
+(define (beatle–number n)
+  (if (or (< n 1) (> n 4))
+      '()
+      (item n '(john paul george ringo))))
+
+  
+(beatle–number 3)
+  
+  (beatle–number 5)
+  
+  (every beatle–number '(2 8 4 0 1))
+  
+(se (beatle–number 2) (beatle–number 8) (beatle–number 4)
+    (beatle–number 0) (beatle–number 1))
+
+
+((repeated bf 3) 987654)
+
+
+#|
+8.1 What does Scheme return as the value of each of the following expressions? Figure it out for yourself before you
+try it on the computer.
+|#
+(every last '(algebra purple spaghetti tomato gnu))
+
+(keep number? '(one two three four))
+
+(accumulate * '(6 7 13 0 9 42 17))
+
+(member? 'h (keep vowel? '(t h r o a t)))
+
+(every square (keep even? '(87 4 7 12 0 5)))
+
+(accumulate word (keep vowel? (every first '(and i love her))))
+((repeated square 0) 25)
+
+
+(every (repeated bl 2) '(good day sunshine))
+
+#|
+8.3 Describe each of the following functions in English. Make sure to include a description of the domai
+n and range of each function. Be as precise as possible; for example,
+ "the argument must be a function of one numeric argument" is better than "the argument must be a function."
+
+(define (f a)
+  (keep even? a))
+takes number or collection of numbers and returns even
+
+(define (g b)
+  (every b '(blue jay way)))
+receive a function as input and will apply to '(blue jay way)
+
+
+(define (h c d)
+  (c (c d)))
+
+c is a funcion that take one argument. d is domain of c
+
+(define (i e)
+  (/ (accumulate + e) (count e)))
+
+accumulate
+tkes a sentence an a prodecure . applies procedure first 2 elements and result with 3rd emelemt and so on
+
+
+repeated
+takes an function and a number, applies function according to number given.
 
 
 
+(repeated sqrt 3)
+i will calculate sqrt 3 times
+
+(repeated first 2)
+it apply first function 2 times
 
 
+(repeated (repeated bf 3) 2)
+it will apply bf 3 times and will do again 2 times
+
+
+8.4 Write a procedure choose–beatles that takes a predicate function as its argument and
+ returns a sentence of just those Beatles (John, Paul, George, and Ringo) that satisfy the predicate. For example:
+Page 121
+(define (ends–vowel? wd) (vowel? (last wd)))
+(define (even–count? wd) (even? (count wd)))
+> (choose–beatles ends–vowel?)
+(GEORGE RINGO)
+> (choose–beatles even–count?)
+(JOHN PAUL GEORGE)
+
+|#
+
+(define (ends–vowel? wd) (vowel? (last wd)))
+(define (even–count? wd) (even? (count wd)))
+(define (vowel? wd) (member? wd '(a e i o u)))
+
+(define (choose-beatles func-tion)
+  (keep func-tion '(John Paul George Ringo)))
+
+(choose-beatles ends-vowel?)
+(choose-beatles even-count?)
+#|
+8.5 Write a procedure transform–beatles that takes a procedure as an argument, 
+applies it to each of the Beatles, and returns the results in a sentence:
+(define (amazify name)
+  (word 'the–amazing–name))
+> (transform–beatles amazify)
+(THE–AMAZING–JOHN THE–AMAZING–PAUL THE–AMAZING–GEORGE
+THE–AMAZING–RINGO)
+> (transform–beatles butfirst)
+(OHN AUL EORGE INGO)
+|#
+
+
+
+(define (amazify name)
+  (word 'the-amazing-name))
+
+(define (transform-beatles fu-nc)
+  (se (every fu-nc '(John Paul George Ringo))))
+
+(transform-beatles amazify)
+(transform-beatles bf)
+(transform-beatles bl)
+(transform-beatles last)
+
+
+#|
+8.6 When you're talking to someone over a noisy radio connection, you sometimes have to spell out a word in order to get
+ the other person to understand it. But names of letters aren't that easy to understand either, so there's a standard code
+ in which each letter is represented by a particular word that starts with the letter. For example, instead of "B" you say "bravo."
+Write a procedure words that takes a word as its argument and returns a sentence of the names of the letters in the word:
+> (words 'cab)
+(CHARLIE ALPHA BRAVO)
+(You may make up your own names for the letters or look up the standard ones if you want.) Hint: Start by writing a helper
+ procedure that figures out the name for a single letter.
+|#
+
+              
+(define (radio-word letter)
+  (cond ((equal? letter 'a) 'alpha)
+        ((equal? letter 'b) 'bravo)
+        ((equal? letter 'c) 'charlie)
+        ((equal? letter 'd) 'delta)
+        ((equal? letter 'e) 'echo)
+        ((equal? letter 'f) 'foxtrot)
+        ((equal? letter 'g) 'golf)
+        ((equal? letter 'h) 'hotel)
+        ((equal? letter 'i) 'india)
+        ((equal? letter 'j) 'juliet)
+        ((equal? letter 'k) 'kilo)
+        ((equal? letter 'l) 'lima)
+        ((equal? letter 'm) 'mike)
+        ((equal? letter 'n) 'november)
+        ((equal? letter 'o) 'oscar)
+        ((equal? letter 'p) 'papa)
+        ((equal? letter 'q) 'quebec)
+        ((equal? letter 'r) 'romeo)
+        ((equal? letter 's) 'sierra)
+        ((equal? letter 't) 'tango)
+        ((equal? letter 'u) 'uniform)
+        ((equal? letter 'v) 'victor)
+        ((equal? letter 'w) 'whisky)
+        ((equal? letter 'x) 'x-ray)
+        ((equal? letter 'y) 'yankee)
+       
+        (else 'zebra)))
+
+(define (phone wd)
+  (se( every radio-word wd)))
+
+
+(phone 'abc)
+(phone 'pakistan)
+
+
+
+(define (letter-count senten-ce)
+   (accumulate + (every count senten-ce)))
 
   
   
-  
-  
-  
-  
-
-
-
-
-
-
-
-
-
-
 
