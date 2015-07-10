@@ -1,4 +1,5 @@
 #|
+#|
 
 (define (two–firsts sent)
   (se (first (first sent))
@@ -410,7 +411,7 @@ phone-unspell 'popcorn)
 
 (define (g b)
   (every b '(blue jay way)))
-
+|#
 #|
 ------------------------------------------------------------------------------------------
 |#
@@ -439,6 +440,9 @@ phone-unspell 'popcorn)
 (word word1 '- word2))
 
 (accumulate hyphenate '(ob la di ob la da))
+
+(define (always–one arg)
+  1)
 
 (define (count sent)
   (accumulate + (every always–one sent)))
@@ -505,7 +509,8 @@ phone-unspell 'popcorn)
 
 
 ((repeated bf 3) 987654)
-
+(define (vowel? wd)
+  (member? wd 'aeiou))
 
 #|
 8.1 What does Scheme return as the value of each of the following expressions? Figure it out for yourself before you
@@ -581,14 +586,18 @@ Page 121
 
 |#
 
-(define (ends–vowel? wd) (vowel? (last wd)))
-(define (even–count? wd) (even? (count wd)))
+(define (ends-vowel? wd)
+  (vowel? (last wd)))
+
+(define (even-count? wd) (even? (count wd)))
+
 (define (vowel? wd) (member? wd '(a e i o u)))
 
 (define (choose-beatles func-tion)
   (keep func-tion '(John Paul George Ringo)))
 
 (choose-beatles ends-vowel?)
+
 (choose-beatles even-count?)
 #|
 8.5 Write a procedure transform–beatles that takes a procedure as an argument, 
@@ -663,12 +672,200 @@ Write a procedure words that takes a word as its argument and returns a sentence
 
 (phone 'abc)
 (phone 'pakistan)
-
-
-
+#|
+8.7 [14.5]* Write a procedure letter–count that takes a sentence as its argument and returns the total number of letters in the sentence:
+> (letter–count '(fixing a hole))
+11
+|#
 (define (letter-count senten-ce)
    (accumulate + (every count senten-ce)))
 
+(letter-count '(fixing a hole))
+(letter-count '(i am busy))
+#|
+8.8 [12.5] Write an exaggerate procedure which exaggerates sentences: > (exaggerate '(i ate 3 potstickers))
+(I ATE 6 POTSTICKERS)
+> (exaggerate '(the chow fun is good here))
+(THE CHOW FUN IS GREAT HERE)
+It should double all the numbers in the sentence, and it should 
+replace "good" with "great," "bad'' with "terrible," and anything else you can think of.
+
+
+ |#
+(define (exaggerate exa)
+  (every double exa))
+
+
+(define (double y)
+  (if (number? y) (* y 2)
+      (superlative y)))
+(define (superlative y)
+  (cond ((equal? y 'good)      'great   )
+        ((equal? y 'bad)       'terrible)
+        ((equal? y 'nice)      'fantastic)
+        (else y)))
   
+(exaggerate '(i ate 3 potstickers))
+
+(exaggerate '(the chow fun is good here))
+
+(exaggerate '(i ate 6 postickers and the chow fun is good here))
+
+(exaggerate '(the chow fun is bad here))
+#|
+8.9 What procedure can you use as the first argument to every 
+so that for any sentence used as the second argument, every returns that sentence?
+
+word and sentence
+|#
+(every sentence '(this is a every sentence))
+(every word '(this is a every sentence))
+
+#|
+What procedure can you use as the first argument to keep so that for any sentence
+ used as the second argument, keep returns that sentence?
+
+word and sentence
+|#
+(keep sentence '(this is a keep sentence))
+(keep word '(this is a keep sentence))
+#|
+What procedure can you use as the first argument to accumulate so that for any sentence 
+used as the second argument, accumulate returns that sentence?
+
+sentence
+|#
+(accumulate sentence '(this is a accumulate sentence))
+
+#|
+8.10 Write a predicate true–for–all? that takes two arguments, a predicate procedure and a sentence. 
+It should return #t if the predicate argument returns true for every word in the sentence.
+> (true–for–all? even? '(2 4 6 8))
+#T
+> (true–for–all? even? '(2 6 3 4))
+#F
+|#
+
+(define (true-for-all? pre sent)
+  (= (count sent) (count (keep pre sent))))
+
+(true-for-all? even? '(2 4 6))
+
+(true-for-all? even? '(2 4 6 3))
+#|
+8.11 [12.6] Write a GPA procedure. It should take a sentence of grades as its argument and return the corresponding grade point average:
+> (gpa '(A A+ B+ B))
+3.67
+Hint: write a helper procedure base–grade that takes a grade as argument and returns 0, 1, 2, 3, or 4, 
+and another helper procedure grade–modifier that returns–.33, 0, or .33, depending on whether the grade has a minus, a plus, or neither.
+|#
+#|
+(define (gpa se)
+  ( / (accumulate + (every base-grade se))
+      (count se)))
   
+(define (split-grade grade)
+  (se (+ (base-grade grade) (grade-modifier grade))))
+
+
+
+(define (base-grade wd)
+  (cond ((equal? wd 'A)  4)
+        ((equal? wd 'A+)  4.33)
+        ((equal? wd 'B)  3)
+        ((equal? wd 'B+)  3.33)
+        ((equal? wd 'C)  2)
+        ((equal? wd 'C+)  2.33)
+        ((equal? wd 'D)  1)
+        ((equal? wd 'D+)  1.33)
+        ((equal? wd 'E)  0)
+        (else 0)))
+
+  
+(define (grade-modifier modifier)
+  (cond ((equal? modifier '- )  -.33 )
+        ((equal? modifier '+ )   .33 )
+         (else 0)))
+
+|#
+
+
+(define (gpa se)
+  ( / (+ (accumulate + (every base-grade se )) (accumulate + (every grade-modifier se)))
+      (count se)))
+  
+
+
+
+
+(define (base-grade wd)
+  (cond ((equal? (first wd) 'A)  4)        
+        ((equal? (first wd) 'B)  3)       
+        ((equal? (first wd) 'C)  2)      
+        ((equal? (first wd) 'D)  1)
+        ((equal? (first wd) 'E)  0)
+        (else 0)))
+
+  
+(define (grade-modifier wd)
+  (cond ((equal? (bf wd) '- )  -.33 )
+        ((equal? (bf wd) '+ )   .33 )
+         (else 0)))
+
+
+(gpa '(A A+ B+ B))
+
+#|
+8.12 [11.2] When you teach a class, people will get distracted if you say "um" too many times. 
+Write a count–ums that counts the number of times "um" appears in a sentence:
+> (count–ums
+  '(today um we are going to um talk about functional um programming))
+3
+
+|#
+
+(define (um? wd)
+  (member? wd '(um)))
+
+(define (count-ums sent)
+  (count  (keep um? sent)))
+
+(count-ums '(today um we are going to um talk about functional um programming))
+
+#|
+8.13 [11.3] Write a procedure phone–unspell that takes a spelled version of a phone number, such as POPCORN, 
+and returns the real phone number, in this case7672676. You will need to write a helper procedure that uses an
+ 8- way cond expression to translate a single letter into a digit.
+|#
+
+
+
+(define (number-to-letter wd)
+  (cond ((member? wd 'abc )   '2)
+        ((member? wd 'def )   '3)
+        ((member? wd 'ghi )   '4)
+        ((member? wd 'jkl )   '5)
+        ((member? wd 'mno )   '6)
+        ((member? wd 'pqrs )   '7)
+        ((member? wd 'tuv )   '8)
+        ((member? wd 'wxyz)   '9)
+        (else 0)))
+(define (phone-unspell wd)
+  (accumulate word (every number-to-letter wd)))
+
+(phone-unspell 'popcorn)
+#|
+8.14 Write the procedure subword that takes three arguments: a word, a starting position number,
+ and an ending position number. It should return the subword containing only the letters between the specified positions:
+> (subword 'polythene 5 8)
+THEN
+|#
+
+(define (subword wd start end)
+  ((repeated bl (- (count wd) end))
+    ((repeated bf (- start 1)) wd)))
+
+
+(subword 'ispakistanjw 3 10)
+(subword 'polythene 5 8)
 
