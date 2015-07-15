@@ -141,3 +141,37 @@ Prepend-very takes 2 arguments "pre" and "se-nt". this will be passed inside the
 tihs case "pre" will have valu s. because of every x will have all the values of "se-nt" one by 
 one and will stick "s" to each value.
 |#
+
+#|
+9.6 Write a procedure sentence–version that takes a function F as its argument and returns a 
+function G. F should take a single word as argument. G should take a sentence as 
+argument and return the sentence formed by applying F to each word of that argument.
+> ((sentence–version first) '(if i fell))
+(I I F)
+> ((sentence–version square) '(8 2 4 6))
+(64 4 16 36)
+|#
+
+(define (double x)
+  (* x 2))
+
+(define (square x)
+  (* x x))
+
+(define (sentence–version f)     ;function f whose out put is a function g
+ 
+ (lambda (g) (every f g)))       ;function g, wich takes sentence as argument and returns sentence
+                                 ;by applying functions f on its argument. 
+  
+  
+ 
+
+
+((sentence–version square) '(8 2 4 6))
+
+((sentence–version first) '(if i fell))
+
+((sentence–version last) '(if i fell))
+
+((sentence–version double) '(2 4 5))
+
