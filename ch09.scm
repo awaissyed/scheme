@@ -175,3 +175,38 @@ argument and return the sentence formed by applying F to each word of that argum
 
 ((sentence–version double) '(2 4 5))
 
+
+#|
+
+9.7 Write a procedure called letterwords that takes as its arguments a letter and a sentence.
+ It returns a sentence containing only those words from the argument sentence that contain the
+ argument letter:
+> (letterwords 'o '(got to get you into my life))
+(GOT TO YOU INTO)
+|#
+
+
+
+(define (letterwords pre se-nt)
+  ;function that will take 2 arguments. a letter and a sentence
+  
+   (keep (lambda (x)  (member? pre x )) se-nt)) 
+
+;lambda is the procedure that will check all the words in se-nt that containf "pre" 
+;and because of keep only those words will be retururene that contain "pre" (letter). 
+
+
+
+
+ 
+(letterwords 'o '(got to get you into my life))
+
+(letterwords 't '(got to get you into my life))
+
+(letterwords 'g '(got to get you into my life))
+
+
+
+
+
+
